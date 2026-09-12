@@ -17,3 +17,43 @@ fn get_random_prime() -> u32 {
 
     u32::from_le_bytes(buf)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_if_prime() {
+        for _ in 0..100 {
+            let prime = get_random_prime();
+            assert!(is_prime(prime));
+        }
+    }
+
+    fn is_prime(x: u32) -> bool {
+        if x < 2 {
+            return false;
+        }
+
+        if x == 2 {
+            return true;
+        }
+
+        if x % 2 == 0 {
+            return false;
+        }
+
+        let max = (x as f32).sqrt().ceil() as u32;
+        let mut i = 3;
+
+        while i <= max {
+            if x % i == 0 {
+                return false;
+            }
+
+            i += 2;
+        }
+
+        true
+    }
+}
